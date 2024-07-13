@@ -1,0 +1,75 @@
+html, body {
+    margin:0;
+    padding:0;
+}
+
+.background{
+    background-image:url("../assets/img/161025104254-matatu-burning-spear.jpg");
+    background-size: cover;
+    background-color: rgb(10, 0, 0,0.2);
+    background-blend-mode: multiply;
+    height:100vh;
+    width: 100vw;
+    background-repeat: none;
+    background-position: center;
+    
+    
+}
+.login{
+    display:grid;
+    justify-content:center;
+    margin: 20%;
+    border-style: double;
+    height: 400px;
+    width: 400px;
+    border-radius: 1em;
+    background-color: rgba(0,0,0,.6);
+
+
+}
+.form-login{
+    display: grid;
+    grid-row: auto;
+    
+
+}
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.section-header{
+    text-align: center;
+    margin: 0;
+    font-size: 4em;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: normal;
+    color:white;
+}
+.btn{
+    border-radius: 1em;
+    max-width: auto;
+    background-color:rgb(70, 8, 128);
+    border: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    align-items: center;
+    padding: 10px;
+    margin: auto;
+} .btn:hover{
+    background-color:rgb(70, 8, 128,0.3) ;
+    cursor: pointer;
+}
+.btn-div{
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-content:space-between;
+
+}
+
+.input-label{
+    margin: 0;
+    font-size: 2em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
