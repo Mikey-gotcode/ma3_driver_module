@@ -23,7 +23,7 @@ function LoginForm() {
         console.log("button pressed")
 
         try {
-            const response=await fetch('https://10.53.42.138:5000/vehicle/login',{
+            const response=await fetch('https://backend-server-86l5.onrender.com/vehicle/login',{
                 method:'POST',
                 headers:{'Content-Type':'Application/json'},
                 body:JSON.stringify(actor)
