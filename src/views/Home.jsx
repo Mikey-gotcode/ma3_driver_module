@@ -1,5 +1,6 @@
 import React from 'react'
 import '../views/css/style.css'
+import {Link} from 'react-router-dom'
 
 function Home() {
   return (
@@ -7,10 +8,10 @@ function Home() {
         <header className="main-header">
             <nav className='nav nav-items'>
                 <ul>
-                    <li><a href="h">HOME</a></li>
-                    <li><a href="h">ABOUT US</a></li>
-                    <li><a href="../views/MapComponent.jsx">VIEW MAP</a></li>
-                    <li><a href="h">ANALYTICS</a></li>
+                    <li><Link to='/'>HOME</Link></li>
+                    <li><Link to='/aboutus'>ABOUT US</Link></li>
+                    <li><Link to='/login'>LOGIN</Link></li>
+                    <li><Link to='/analytics'>ANALYTICS</Link></li>
                 </ul>
             </nav>
             <h1 className='app-name app-name-large'>MA3 DRIVER MODULE</h1>
