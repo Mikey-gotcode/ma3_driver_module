@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import MapGL from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -12,36 +12,51 @@ const MapComponent = () => {
     longitude: -122.4376,
     zoom: 12,
   });
-  const [vehicleCoordinates, setVehicleCoordinates] = useState([]);
-
-  const vehicleCoordinatesArray = useMemo(() => [
-    { latitude: -1.183178, longitude: 36.838275 },
-    { latitude: -1.261438, longitude: 36.842226 }
-    // Add more coordinates as needed for vehicle movement simulation
-  ], []);
+  const [vehicleCoordinates, setVehicleCoordinates] = useState(null);
 
   useEffect(() => {
-    // Simulate vehicle movement by updating coordinates from array
-    const intervalId = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * vehicleCoordinatesArray.length);
-      const { latitude, longitude } = vehicleCoordinatesArray[randomIndex];
-      setVehicleCoordinates([{ latitude, longitude }]);
-    }, 2000); // Adjust interval as needed
+    if (navigator.geolocation) {
+      // Request the device's location
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
 
-    return () => clearInterval(intervalId);
-  }, [vehicleCoordinatesArray]);
+          // Update the vehicleCoordinates state with the current location
+          setVehicleCoordinates({ latitude, longitude });
+
+          // Update the map viewport to center on the current location
+          setViewport((prevViewport) => ({
+            ...prevViewport,
+            latitude,
+            longitude,
+          }));
+        },
+        (error) => console.error('Error getting location:', error),
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+
+      return () => {
+        navigator.geolocation.clearWatch(watchId);
+      };
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+  }, []);
 
   useEffect(() => {
-    // Send initial vehicle location to server
-    if (vehicleCoordinates.length > 0) {
-      const { latitude, longitude } = vehicleCoordinates[0];
-      socket.emit('sendLocation', { latitude, longitude });
+    // Send location data to the server when it changes
+    if (vehicleCoordinates) {
+      socket.emit('sendLocation', vehicleCoordinates);
     }
   }, [vehicleCoordinates]);
 
   useEffect(() => {
-    // Receive location data from server
-    socket.on('receiveLocation', data => {
+    // Receive location data from the server
+    socket.on('receiveLocation', (data) => {
       console.log('Received location data:', data);
       // Handle received location data as needed
     });
@@ -57,12 +72,15 @@ const MapComponent = () => {
       width="100vw"
       height="100vh"
       mapStyle="mapbox://styles/mapbox/streets-v11"
-      onViewportChange={newViewport => setViewport(newViewport)}
+      onViewportChange={(newViewport) => setViewport(newViewport)}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
     >
-      {vehicleCoordinates.map((coords, index) => (
-        <VehicleMarker key={index} latitude={coords.latitude} longitude={coords.longitude} />
-      ))}
+      {vehicleCoordinates && (
+        <VehicleMarker
+          latitude={vehicleCoordinates.latitude}
+          longitude={vehicleCoordinates.longitude}
+        />
+      )}
     </MapGL>
   );
 };
