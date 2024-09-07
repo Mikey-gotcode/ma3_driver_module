@@ -24,6 +24,8 @@ const MapComponent = () => {
           // Update the vehicleCoordinates state with the current location
           setVehicleCoordinates({ latitude, longitude });
 
+          //log whether vehicle data is being fetched
+
           // Update the map viewport to center on the current location
           setViewport((prevViewport) => ({
             ...prevViewport,

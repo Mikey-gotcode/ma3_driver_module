@@ -29,21 +29,18 @@ function LoginForm() {
                 body:JSON.stringify(actor)
             })
             console.log(response.status)
-            if (response.status) {
-              const data=await response.json()
-              //console.log(data)
-              if (data) {
-                console.log(data)
-                //const loggedData=data
-                navigate('/mapcomponent')
+            const data=await response.json()
+            //console.log(data)
+               if (data) {
+                console.log(data.vehicle)
+                const loggedData=data.vehicle
+                navigate('/mainpage',{state:loggedData})
                 
               } else {
                 
               }
-            } else {
-              
-            }
-        } catch (error) {
+           
+       }catch (error) {
             console.error('Error:',error)
             
         }

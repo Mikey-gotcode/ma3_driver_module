@@ -12,6 +12,7 @@ function Home() {
                     <li><Link to='/aboutus'>ABOUT US</Link></li>
                     <li><Link to='/login'>LOGIN</Link></li>
                     <li><Link to='/analytics'>ANALYTICS</Link></li>
+                    <li><Link to='/mainpage'></Link></li>
                 </ul>
             </nav>
             <h1 className='app-name app-name-large'>MA3 DRIVER MODULE</h1>
